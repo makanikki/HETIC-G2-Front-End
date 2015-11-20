@@ -22,5 +22,8 @@ module.exports = {
 	files: {
 		src: ['fonts/**'],
 		build: ['build/fonts']
-	}
+	},
+  html: {
+    src: '*.html',
+  }
 };

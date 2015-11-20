@@ -15,6 +15,7 @@ gulp.task('default', function(){
   });
 
   gulp.watch( config.templates.hbs ).on('change', reload);
+  gulp.watch( config.html.src ).on('change', reload);
 
   //-- Live reload CSS / SASS
   gulp.watch( config.styles.sass, ['sass']);
