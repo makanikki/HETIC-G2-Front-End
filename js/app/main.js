@@ -29,7 +29,7 @@ function App(){
 
 // Init app
 App.prototype.init = function() {
-	
+
 	// Load datas
 	this.loadDatas();
 
@@ -37,7 +37,7 @@ App.prototype.init = function() {
 
 // Load datas
 App.prototype.loadDatas = function() {
-	
+
 	// Save context
 	var self = this;
 
@@ -79,15 +79,18 @@ App.prototype.onDatasLoaded = function() {
 
 // Bind common events
 App.prototype.bind = function() {
-	
+
 	// Bind resize event
 	this.window.on("resize", $.proxy(this.resize, this));
+  this.window.on("click", function() {
+    console.log('dazda');
+  });
 
 };
 
 // Resize
 App.prototype.resize = function() {
-	
+
 	// Save new window width & height
 	this.w = this.window.width();
 	this.h = this.window.height();
@@ -99,7 +102,7 @@ App.prototype.resize = function() {
 
 // Update
 App.prototype.update = function() {
-		
+
 	// Dispatch onUpdate event at every requestAnimationFrame
 	this._onUpdate.dispatch();
 
@@ -114,7 +117,7 @@ App.prototype.template = function(templateId, datas) {
 };
 
 App.prototype.onMainLoaderAnimateIn = function() {
-	
+
 	// Remove listener
 	this.mainLoader._onAnimateIn.remove(this.onMainLoaderAnimateIn, this);
 

@@ -1,2 +1,58 @@
 #home{
+  background: $backgroundDark;
+  border: 23px $regularColor solid;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  &:before {
+    content: '';
+    height: 100%;
+    display:inline-block;
+
+    vertical-align: middle;
+  }
+
+  #content {
+    margin: auto;
+
+    display: inline-block;
+    text-align: center;
+
+    vertical-align: middle;
+
+    #logo {
+      img {
+        width: 235px;
+      }
+    }
+
+    #text {
+      @include regularText();
+    }
+
+    button {
+      @include regularText(18px);
+
+      height: 50px;
+      padding: 5px;
+      background: transparent;
+
+      border: 2px solid $regularColor;
+
+      margin-top: 20px;
+      padding: 20px 70px;
+      line-height: 10px;
+
+      &:focus {
+        outline: none;
+      }
+
+      &:active {
+        background: $lightenBackgroundDark;
+      }
+
+    }
+  }
 }
