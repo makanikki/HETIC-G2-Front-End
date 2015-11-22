@@ -1,0 +1,9 @@
+// Color
+$backgroundDark: #1e1e1e;
+
+$regularColor: #f2eed4;
+$lightenBackgroundDark: lighten($backgroundDark, 10%);
+
+
+// Text
+$light-text-color: $regularColor;

@@ -12,9 +12,32 @@
 
 }
 
+@font-face {
+    font-family: 'axis';
+    src: url('axis-webfont.eot');
+    src: url('/fonts/axis-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/axis-webfont.woff2') format('woff2'),
+         url('/fonts/axis-webfont.woff') format('woff'),
+         url('/fonts/axis-webfont.ttf') format('truetype'),
+         url('/fonts/axis-webfont.svg#axisbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 // MIXIN
 @mixin fontReg() {
 	font-family: 'gill_sans';
 	font-style: normal;
 	font-weight: 200;
+}
+
+@mixin regularText($fontSize: 13px) {
+    text-align: center;
+    color: $light-text-color;
+    font-family: 'Axis', sans-serif;
+
+    text-transform: uppercase;
+
+    font-size : $fontSize;
 }
