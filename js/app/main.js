@@ -82,9 +82,6 @@ App.prototype.bind = function() {
 
 	// Bind resize event
 	this.window.on("resize", $.proxy(this.resize, this));
-  this.window.on("click", function() {
-    console.log('dazda');
-  });
 
 };
 

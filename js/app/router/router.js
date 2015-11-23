@@ -64,6 +64,15 @@ Router.prototype.createRoutes = function() {
 
 	});
 
+    crossroads.addRoute( '/cut-wheat', function() {
+
+        self._onNavigate.dispatch({
+           view: 'cutWheat'
+        });
+
+        console.log( '## Navigate view cutWheat' );
+    });
+
 };
 
 // Navigate
