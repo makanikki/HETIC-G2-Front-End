@@ -2,7 +2,7 @@
 5
 
 # Nom du projet
-La fabrication de la bièére
+La fabrication de la bière
 
 # Equipe
 - Lucas BIGOT
