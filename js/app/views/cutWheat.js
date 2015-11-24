@@ -57,13 +57,16 @@ cutWheat.prototype.getSelectors = function() {
     this.rangeInteraction = this.domElem.find('.range-interaction');
     this.rangeInstruction = this.domElem.find('.instructions-cut-wheat');
     this.btnNextStep = this.domElem.find('#next-button');
-    this.reloadLink = this.domElem.find('.reload-cut-wheat');
+    this.reloadLink = this.domElem.find('#reload-cut-wheat');
 };
 
 cutWheat.prototype.bind = function() {
     this.getSelectors();
     View.prototype.bind.call(this);
     this.start();
+
+    this.btnNextStep.on('click', $.proxy(this.onBtnNextStepClick, this));
+    this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
 };
 
 cutWheat.prototype.getImgPath = function(i) {
@@ -135,7 +138,7 @@ cutWheat.prototype.resize = function() {
 };
 
 cutWheat.prototype.clear = function() {
-    this.context.clearRect( 0,0, this.videoW, this.videoH );
+    this.context.clearRect( 0, 0, this.videoW, this.videoH );
 };
 
 cutWheat.prototype.getFrame = function() {
@@ -166,6 +169,33 @@ cutWheat.prototype.update = function() {
         });
 
     }
+};
+
+cutWheat.prototype.onBtnNextStepClick = function(e) {
+    console.log('click');
+    var waterWheat = app.viewController.views.waterWheat;
+    e.preventDefault();
+
+    $('#main').append(waterWheat.dom);
+
+    this.animateOut();
+    app.router.navigate(waterWheat.slug);
+};
+
+cutWheat.prototype.onReloadLinkClick = function(e) {
+    this.getSelectors();
+    e.preventDefault();
+
+    var self = this;
+
+    this.btnNextStep.fadeOut();
+    this.reloadLink.fadeOut(function(){
+        self.rangeInteraction.fadeIn();
+        self.rangeInstruction.fadeIn();
+    });
+
+    this.rangeInteraction.val(0).change();
+    this.update();
 };
 
 
