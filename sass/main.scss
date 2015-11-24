@@ -13,6 +13,7 @@
 // Body
 html, body {
 	width: 100%;
+  overflow: hidden;
 
 	-moz-osx-font-smoothing: grayscale;
 	 -webkit-font-smoothing: antialiased;
@@ -46,5 +47,4 @@ body {
 
 // Views
 @import "views/home";
-@import "views/experience";
 @import "views/cutWheat";

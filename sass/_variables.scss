@@ -1,7 +1,9 @@
 // Color
 $backgroundDark: #1e1e1e;
+$lightenBackgroundDark: lighten($backgroundDark, 10%);
 
 $regularColor: #f2eed4;
+$darkenRegularColor: darken($regularColor, 10%);
 $brown: #3F2C09;
 $lightenBrown: lighten($brown, 10%);
 $softBrown: #F5DEB3;

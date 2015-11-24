@@ -53,25 +53,14 @@ Router.prototype.createRoutes = function() {
 
 	});
 
-	// Experience
-	crossroads.addRoute( '/experience' , function(){
+	crossroads.addRoute( '/cut-wheat', function() {
 
-		self._onNavigate.dispatch({
-			view: 'experience'
-		});
+			self._onNavigate.dispatch({
+				 view: 'cutWheat'
+			});
 
-		console.log( '## Navigate view experience' );
-
+			console.log( '## Navigate view cutWheat' );
 	});
-
-    crossroads.addRoute( '/cut-wheat', function() {
-
-        self._onNavigate.dispatch({
-           view: 'cutWheat'
-        });
-
-        console.log( '## Navigate view cutWheat' );
-    });
 
 };
 

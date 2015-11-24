@@ -1,6 +1,7 @@
 var cutWheat = function () {
 
     this.id = "cutWheat";
+    this.slug = "cut-wheat";
     View.apply(this, arguments);
 
     this.ratio = 1920 / 1080;
@@ -103,7 +104,10 @@ cutWheat.prototype.onLoaderComplete = function() {
 };
 
 cutWheat.prototype.resize = function() {
+    View.prototype.resize.call(this);
+
     this.getSelectors();
+
     this.width = $(window).width();
     this.height = $(window).height();
 

@@ -36,13 +36,13 @@ App.prototype.init = function() {
 };
 
 // Load datas
-App.prototype.loadDatas = function() {
+App.prototype.loadDatas = function () {
 
 	// Save context
 	var self = this;
 
 	// Get datas
-	$.getJSON( this.datasPath + this.lang + '.json', function(response){
+	$.getJSON(this.datasPath + this.lang + '.json', function (response) {
 
 		// Save datas
 		self.datas = response;
@@ -55,7 +55,7 @@ App.prototype.loadDatas = function() {
 };
 
 // Once datas are loaded
-App.prototype.onDatasLoaded = function() {
+App.prototype.onDatasLoaded = function () {
 
 	// Bind common events
 	this.bind();
@@ -78,7 +78,7 @@ App.prototype.onDatasLoaded = function() {
 };
 
 // Bind common events
-App.prototype.bind = function() {
+App.prototype.bind = function () {
 
 	// Bind resize event
 	this.window.on("resize", $.proxy(this.resize, this));
@@ -86,7 +86,7 @@ App.prototype.bind = function() {
 };
 
 // Resize
-App.prototype.resize = function() {
+App.prototype.resize = function () {
 
 	// Save new window width & height
 	this.w = this.window.width();
@@ -98,7 +98,7 @@ App.prototype.resize = function() {
 };
 
 // Update
-App.prototype.update = function() {
+App.prototype.update = function () {
 
 	// Dispatch onUpdate event at every requestAnimationFrame
 	this._onUpdate.dispatch();
@@ -106,14 +106,14 @@ App.prototype.update = function() {
 };
 
 // Template
-App.prototype.template = function(templateId, datas) {
+App.prototype.template = function (templateId, datas) {
 
 	// Return compiled template from templateId & datas
-	return this.templates[ templateId ]( datas );
+	return this.templates[templateId](datas);
 
 };
 
-App.prototype.onMainLoaderAnimateIn = function() {
+App.prototype.onMainLoaderAnimateIn = function () {
 
 	// Remove listener
 	this.mainLoader._onAnimateIn.remove(this.onMainLoaderAnimateIn, this);
@@ -126,16 +126,16 @@ App.prototype.onMainLoaderAnimateIn = function() {
 
 };
 
-App.prototype.getObjectLength = function( obj ){
+App.prototype.getObjectLength = function (obj) {
 
-  return Object.size(obj);
+	return Object.size(obj);
 
 };
 
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
+Object.size = function (obj) {
+	var size = 0, key;
+	for (key in obj) {
+		if (obj.hasOwnProperty(key)) size++;
+	}
+	return size;
 };
