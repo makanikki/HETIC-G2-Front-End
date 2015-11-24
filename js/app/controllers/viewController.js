@@ -23,6 +23,7 @@ ViewController.prototype.init = function() {
 	this.views = {
 		'home': new Home(),
 		'cutWheat': new cutWheat(),
+        'waterWheat': new waterWheat()
 	};
 
 };

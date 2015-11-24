@@ -16,3 +16,8 @@ Projet js sur la fabrication de la bière
 
 # Instructions
 (sudo) npm install
+gulp js_app
+gulp js_libs
+gulp sass
+gulp template
+gulp
