@@ -1,5 +1,4 @@
 var View = function(){
-
 	// Constructor
 	this.loaded = false;
 	this.container = app.mainContainer;
@@ -24,6 +23,9 @@ var View = function(){
 
 	this.images = {};
 
+	this.vh = 0;
+	this.vw = 0;
+
 	// Init view
 	this.init();
 
@@ -31,15 +33,29 @@ var View = function(){
 
 // Init view
 View.prototype.init = function() {
-	
+
 	this.template();
 
 };
 
 // Template view
 View.prototype.template = function() {
-	
+
+	this.setViewportInfos();
+
 	this.dom = app.template( this.templateId, this.datas );
+
+};
+
+View.prototype.setViewportInfos = function() {
+	this.vh = $(window).height();
+	this.vw = $(window).width();
+
+	this.datas = {
+		vh: this.vh,
+		vw: this.vw,
+		svg_width: 13.3 * this.vw,
+	};
 
 };
 
@@ -86,7 +102,7 @@ View.prototype.onLoadComplete = function() {
 
 // Animate view in
 View.prototype.animateIn = function() {
-	
+
 	// Remove on view load complete event
 	this._onViewLoadComplete.remove( this.animateIn, this );
 
@@ -131,6 +147,7 @@ View.prototype.setSelectors = function() {
 
 // Resize view
 View.prototype.resize = function() {
+	this.setViewportInfos();
 
 };
 
@@ -141,7 +158,7 @@ View.prototype.update = function() {
 
 // Bind view events
 View.prototype.bind = function() {
-	
+
 	// Bind onUpdate = requestAnimationFrame event
 	app._onUpdate.add(this.update, this);
 

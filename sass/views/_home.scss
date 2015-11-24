@@ -3,6 +3,7 @@
   border: 23px $regularColor solid;
 
   box-sizing: border-box;
+  overflow: hidden;
 
   text-align: center;
 
@@ -32,27 +33,46 @@
       @include regularText();
     }
 
-    button {
+    #start-button {
       @include regularText(18px);
+      display:block;
 
       height: 50px;
       padding: 5px;
+
       background: transparent;
+      text-decoration: none;
 
       border: 2px solid $regularColor;
 
       margin-top: 20px;
-      padding: 20px 70px;
-      line-height: 10px;
+      padding: 5px 70px;
+      line-height: 35px;
+
+      cursor: pointer;
+      transition: .6s;
+
+      &:hover {
+        background-color: $regularColor;
+        color: $backgroundDark;
+      }
 
       &:focus {
         outline: none;
       }
 
       &:active {
-        background: $lightenBackgroundDark;
+        background: $darkenRegularColor;
+        transition: none;
       }
 
     }
   }
+}
+
+#svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
