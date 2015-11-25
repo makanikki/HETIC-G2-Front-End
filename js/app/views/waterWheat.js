@@ -1,7 +1,7 @@
-var cutWheat = function () {
+var waterWheat = function() {
 
-    this.id = "cutWheat";
-    this.slug = "cut-wheat";
+    this.id = "waterWheat";
+    this.slug = "water-wheat";
     View.apply(this, arguments);
 
     this.ratio = 1920 / 1080;
@@ -13,19 +13,16 @@ var cutWheat = function () {
 
     this.index = 0;
 
-    this.imgBase = 'assets/images/cut-wheat/cut_ble00';
+    this.imgBase = 'assets/images/water-wheat/ble_bac_water_00';
 
-    for( var i = 0; i <= 179; i++ ){
-
-        this.imagesToLoad[ 'frame-' + i ] = this.getImgPath( i );
-
+    for( var i = 0; i <= 299; i++ ){
+        this.imagesToLoad[ 'frame-' + i] = this.getImgPath( i );
     }
-
 };
 
-cutWheat.prototype = Object.create(View.prototype);
+waterWheat.prototype = Object.create(View.prototype);
 
-cutWheat.prototype.animateIn = function() {
+waterWheat.prototype.animateIn = function() {
 
     View.prototype.animateIn.call(this);
 
@@ -39,7 +36,7 @@ cutWheat.prototype.animateIn = function() {
 
 };
 
-cutWheat.prototype.animateOut = function() {
+waterWheat.prototype.animateOut = function() {
 
     View.prototype.animateOut.call(this);
 
@@ -51,25 +48,22 @@ cutWheat.prototype.animateOut = function() {
 
 };
 
-cutWheat.prototype.getSelectors = function() {
-    this.canvas = this.domElem.find('#animation-cut-wheat');
+waterWheat.prototype.getSelectors = function() {
+    this.canvas = this.domElem.find('#animation-water-wheat');
     this.context = this.canvas[0].getContext('2d');
-    this.rangeInteraction = this.domElem.find('.range-interaction');
-    this.rangeInstruction = this.domElem.find('.instructions-cut-wheat');
     this.btnNextStep = this.domElem.find('#next-button');
-    this.reloadLink = this.domElem.find('#reload-cut-wheat');
+    this.reloadLink = this.domElem.find('#reload-water-wheat');
 };
 
-cutWheat.prototype.bind = function() {
+waterWheat.prototype.bind = function() {
     this.getSelectors();
     View.prototype.bind.call(this);
     this.start();
 
-    this.btnNextStep.on('click', $.proxy(this.onBtnNextStepClick, this));
     this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
 };
 
-cutWheat.prototype.getImgPath = function(i) {
+waterWheat.prototype.getImgPath = function(i) {
     var prefix = '';
 
     if (i < 100) {
@@ -83,30 +77,26 @@ cutWheat.prototype.getImgPath = function(i) {
     return this.imgBase + prefix + i + '.png';
 };
 
-cutWheat.prototype.start = function() {
+waterWheat.prototype.start = function() {
     $(window).on('resize', $.proxy(this.resize, this));
 
     this.resize();
 
     this.loader = new Loader();
-
     this.loader.addImages(this.imagesToLoad);
-
     this.loader._onComplete.add(this.onLoaderComplete, this);
 
     this.loader.start();
 };
 
-cutWheat.prototype.onLoaderComplete = function() {
+waterWheat.prototype.onLoaderComplete = function() {
     var self = this;
     $.each( this.imagesToLoad, function(id, url){
-
-        self.images.push( self.loader.queue.getResult( id ) );
-
+       self.images.push( self.loader.queue.getResult( id ));
     });
 };
 
-cutWheat.prototype.resize = function() {
+waterWheat.prototype.resize = function() {
     View.prototype.resize.call(this);
 
     this.getSelectors();
@@ -134,24 +124,26 @@ cutWheat.prototype.resize = function() {
 
 
     this.currentFrame = null;
+}
 
+waterWheat.prototype.clear = function() {
+    this.context.clearRect( 0, 0, this.videoW, this.videoH);
 };
 
-cutWheat.prototype.clear = function() {
-    this.context.clearRect( 0, 0, this.videoW, this.videoH );
-};
-
-cutWheat.prototype.getFrame = function() {
-    this.index = this.rangeInteraction.val();
+waterWheat.prototype.getFrame = function() {
+    if (this.index < 299) {
+        this.index++;
+    }
+    console.log(this.index);
     return this.images[this.index];
 };
 
-cutWheat.prototype.draw = function( img ) {
+waterWheat.prototype.draw = function( img ) {
     this.getSelectors();
     this.context.drawImage( img, 0, 0, this.videoW, this.videoH );
 };
 
-cutWheat.prototype.update = function() {
+waterWheat.prototype.update = function() {
     var frame = this.getFrame();
     var self = this;
     if (typeof frame != 'undefined' && frame != this.currentFrame) {
@@ -160,47 +152,20 @@ cutWheat.prototype.update = function() {
         this.currentFrame = frame;
     }
 
-    if (this.index == 179) {
-        this.rangeInteraction.fadeOut();
-        this.rangeInstruction.fadeOut(function() {
-            self.btnNextStep.fadeIn();
-            self.reloadLink.fadeIn();
-
-        });
-
-    }
+    if (this.index == 299) {
+        self.return;
+        this.btnNextStep.fadeIn();
+        this.reloadLink.fadeIn();
+    };
 };
 
-cutWheat.prototype.onBtnNextStepClick = function(e) {
-    console.log('click');
-    var waterWheat = app.viewController.views.waterWheat;
-    e.preventDefault();
-
-    $('#main').append(waterWheat.dom);
-
-    this.animateOut();
-    app.router.navigate(waterWheat.slug);
-};
-
-cutWheat.prototype.onReloadLinkClick = function(e) {
+waterWheat.prototype.onReloadLinkClick = function(e) {
     this.getSelectors();
     e.preventDefault();
 
-    var self = this;
-
     this.btnNextStep.fadeOut();
-    this.reloadLink.fadeOut(function(){
-        self.rangeInteraction.fadeIn();
-        self.rangeInstruction.fadeIn();
-    });
-
-    this.rangeInteraction.val(0).change();
+    this.reloadLink.fadeOut();
+    this.index = 0;
+    console.log(this.index);
     this.update();
 };
-
-
-
-
-
-
-
