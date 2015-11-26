@@ -1,0 +1,190 @@
+#mixIngredients{
+  background: $creamyWhite;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  .information{
+    @include regularText(20px);
+    color: $brown;
+    z-index: 100;
+    position:relative;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 20px;
+  }
+
+  .range-interaction{
+    z-index: 100;
+    position:relative;
+    margin-bottom: 40px;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 20%;
+    margin: 13.8px 0;
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -o-transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    transform:rotate(90deg);
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 20%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+    background: #e2c99b;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0.4px 0.4px 1px rgba(0, 0, 0, 0), 0px 0px 0.4px rgba(13, 13, 13, 0);
+    border: 4.2px solid #e2c99b;
+    height: 36px;
+    width: 35px;
+    border-radius: 50px;
+    background: #f5deb3;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -14px;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #e2c99b;
+  }
+  input[type=range]::-moz-range-track {
+    width: 20%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+    background: #e2c99b;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 0.4px 0.4px 1px rgba(0, 0, 0, 0), 0px 0px 0.4px rgba(13, 13, 13, 0);
+    border: 4.2px solid #e2c99b;
+    height: 36px;
+    width: 35px;
+    border-radius: 50px;
+    background: #f5deb3;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    width: 20%;
+    height: 8.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #e2c99b;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #e2c99b;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0), 0px 0px 1px rgba(13, 13, 13, 0);
+  }
+  input[type=range]::-ms-thumb {
+    box-shadow: 0.4px 0.4px 1px rgba(0, 0, 0, 0), 0px 0px 0.4px rgba(13, 13, 13, 0);
+    border: 4.2px solid #e2c99b;
+    height: 36px;
+    width: 35px;
+    border-radius: 50px;
+    background: #f5deb3;
+    cursor: pointer;
+    height: 8.4px;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #e2c99b;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #e2c99b;
+  }
+
+  .instructions-mix-ingredients{
+    @include regularText(15px);
+    color: $brown;
+    position: relative;
+    z-index: 100;
+    margin-bottom: 10%;
+  }
+
+  #next-button {
+    @include regularText(18px);
+
+    height: 50px;
+    padding: 5px;
+    background: transparent;
+    position:relative;
+    z-index: 100;
+    border: 2px solid $brown;
+
+    margin-top: 10px;
+    padding: 20px 70px;
+    line-height: 10px;
+    display: none;
+    color: $brown;
+    transition: all 0.4s ease;
+
+    &:hover{
+      background: $brown;
+      color: $creamyWhite;
+      cursor: pointer;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      background: $lightenBackgroundDark;
+    }
+
+  }
+
+  #reload-mix-ingredients{
+    @include regularText(15px);
+    border:none;
+    outline: none;
+    background: none;
+    position: relative;
+    z-index: 100;
+    display: none;
+    top: 15px;
+    text-align: center;
+    color: $lightenBrown;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    cursor: pointer;
+
+    &:hover{
+      color: $brown;
+    }
+  }
+
+
+  #animation-mix-ingredients{
+    z-index: 50;
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    display: block;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 50;
+  }
+
+}

@@ -4,6 +4,8 @@ var warmWheat = function() {
     this.slug = "warm-wheat";
     View.apply(this, arguments);
 
+    this.imagesAreLoaded = false;
+
     this.imgBase = 'assets/images/warm-wheat/on_met_le_chauffage_00';
 
     for( var i = 300; i <= 480; i += 3 ){
@@ -60,6 +62,8 @@ warmWheat.prototype.onLoaderComplete = function() {
     $.each( this.imagesToLoad, function(id, url){
        self.images.push( self.loader.queue.getResult( id ));
     });
+
+    this.imagesAreLoaded = true;
 };
 
 warmWheat.prototype.resize = function() {
@@ -93,19 +97,22 @@ warmWheat.prototype.resize = function() {
 }
 
 warmWheat.prototype.update = function() {
-    var frame = this.getFrame();
-    var self = this;
-    if (typeof frame != 'undefined' && frame != this.currentFrame) {
-        this.clear();
-        this.draw( frame );
-        this.currentFrame = frame;
-    }
+    if (this.imagesAreLoaded == true) {
+        var frame = this.getFrame();
+        var self = this;
+        if (typeof frame != 'undefined' && frame != this.currentFrame) {
+            this.clear();
+            this.draw(frame);
+            this.currentFrame = frame;
+        }
 
-    if (this.index == this.images.length - 1) {
-        //self.return;
-        this.btnNextStep.fadeIn();
-        this.reloadLink.fadeIn();
-    };
+        if (this.index == this.images.length - 1) {
+            //self.return;
+            this.btnNextStep.fadeIn();
+            this.reloadLink.fadeIn();
+        }
+        ;
+    }
 };
 
 warmWheat.prototype.onReloadLinkClick = function(e) {

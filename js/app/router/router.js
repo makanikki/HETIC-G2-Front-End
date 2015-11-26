@@ -80,6 +80,24 @@ Router.prototype.createRoutes = function() {
 		console.log( '## Navigate view warmWheat' );
 	});
 
+    crossroads.addRoute( '/crush-wheat', function() {
+
+            self._onNavigate.dispatch({
+                view: 'crushWheat'
+            });
+
+            console.log('## Navigate view crushWheat');
+    });
+
+    crossroads.addRoute( '/mix-ingredients', function() {
+
+            self._onNavigate.dispatch({
+                view: 'mixIngredients'
+            });
+
+            console.log('## Navigate view mixIngredients');
+    });
+
 };
 
 // Navigate
