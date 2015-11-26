@@ -9,8 +9,8 @@ Home.prototype = Object.create(View.prototype);
 
 Home.prototype.getSelectors = function() {
 	this.button = this.domElem.find('#start-button');
-  this.svg = $('svg.loading');
-  this.svg.hide();
+	this.svg = $('svg.loading');
+	this.svg.hide();
 	this.waterFill = document.querySelector('.water-fill');
 
 }
@@ -28,27 +28,26 @@ Home.prototype.onButtonClick = function(e) {
 
 	e.preventDefault();
 
-  this.startWaveEffect();
+	this.startWaveEffect();
 
-  $('#main').append(cutWheat.dom);
+	$('#main').append(cutWheat.dom);
 
-  setTimeout(
-    $.proxy(function(){
-      this.animateOut();
-      app.router.navigate(cutWheat.slug);
-    }, this),
-  3000);
+	setTimeout(
+		$.proxy(function(){
+			app.router.navigate(cutWheat.slug);
+		}, this),
+		3000);
 
-  setTimeout(
-    $.proxy(function() {
-      this.svg.hide();
-    },this),
-    6000);
+	setTimeout(
+		$.proxy(function() {
+			this.svg.remove();
+		},this),
+		6000);
 
 };
 
 Home.prototype.animateIn = function() {
-	
+
 	View.prototype.animateIn.call(this);
 
 	var self = this;
@@ -75,17 +74,17 @@ Home.prototype.animateOut = function() {
 Home.prototype.resize = function() {
 	View.prototype.resize.call(this);
 
-  this.setViewportInfos();
+	this.setViewportInfos();
 
-  if (typeof this.svg != 'undefined') {
-    this.reloadSvgSize();
-  }
+	if (typeof this.svg != 'undefined') {
+		this.reloadSvgSize();
+	}
 
 }
 
 Home.prototype.startWaveEffect = function() {
-  this.svg.hide();
-  this.svg.fadeIn();
+	this.svg.hide();
+	this.svg.fadeIn();
 
 	TweenMax.fromTo(this.waterFill,0.8,
 		{
@@ -120,5 +119,5 @@ Home.prototype.startWaveEffect = function() {
 };
 
 Home.prototype.reloadSvgSize = function() {
-  this.svg.css('width', this.vw).css('height', this.vh);
+	this.svg.css('width', this.vw).css('height', this.vh);
 }
