@@ -4,15 +4,6 @@ var cutWheat = function () {
     this.slug = "cut-wheat";
     View.apply(this, arguments);
 
-    this.ratio = 1920 / 1080;
-    this.currentFrame = null;
-
-    this.images = [];
-
-    this.imagesToLoad = {};
-
-    this.index = 0;
-
     this.imgBase = 'assets/images/cut-wheat/cut_ble00';
 
     for( var i = 0; i <= 179; i++ ){
@@ -69,34 +60,6 @@ cutWheat.prototype.bind = function() {
     this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
 };
 
-cutWheat.prototype.getImgPath = function(i) {
-    var prefix = '';
-
-    if (i < 100) {
-        prefix += '0';
-    }
-
-    if (i < 10) {
-        prefix += '0';
-    }
-
-    return this.imgBase + prefix + i + '.png';
-};
-
-cutWheat.prototype.start = function() {
-    $(window).on('resize', $.proxy(this.resize, this));
-
-    this.resize();
-
-    this.loader = new Loader();
-
-    this.loader.addImages(this.imagesToLoad);
-
-    this.loader._onComplete.add(this.onLoaderComplete, this);
-
-    this.loader.start();
-};
-
 cutWheat.prototype.onLoaderComplete = function() {
     var self = this;
     $.each( this.imagesToLoad, function(id, url){
@@ -146,11 +109,6 @@ cutWheat.prototype.getFrame = function() {
     return this.images[this.index];
 };
 
-cutWheat.prototype.draw = function( img ) {
-    this.getSelectors();
-    this.context.drawImage( img, 0, 0, this.videoW, this.videoH );
-};
-
 cutWheat.prototype.update = function() {
     var frame = this.getFrame();
     var self = this;
@@ -160,7 +118,7 @@ cutWheat.prototype.update = function() {
         this.currentFrame = frame;
     }
 
-    if (this.index == 179) {
+    if (this.index == this.images.length - 1) {
         this.rangeInteraction.fadeOut();
         this.rangeInstruction.fadeOut(function() {
             self.btnNextStep.fadeIn();
@@ -176,9 +134,6 @@ cutWheat.prototype.onBtnNextStepClick = function(e) {
     var waterWheat = app.viewController.views.waterWheat;
     e.preventDefault();
 
-    $('#main').append(waterWheat.dom);
-
-    this.animateOut();
     app.router.navigate(waterWheat.slug);
 };
 
