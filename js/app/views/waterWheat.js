@@ -4,18 +4,12 @@ var waterWheat = function() {
     this.slug = "water-wheat";
     View.apply(this, arguments);
 
-    this.ratio = 1920 / 1080;
-    this.currentFrame = null;
-
-    this.images = [];
-
-    this.imagesToLoad = {};
-
-    this.index = 0;
+    this.animationEnded = false;
+    this.scrollTriggered = false;
 
     this.imgBase = 'assets/images/water-wheat/ble_bac_water_00';
 
-    for( var i = 0; i <= 299; i++ ){
+    for( var i = 0; i <= 299; i += 3 ){
         this.imagesToLoad[ 'frame-' + i] = this.getImgPath( i );
     }
 };
@@ -53,40 +47,20 @@ waterWheat.prototype.getSelectors = function() {
     this.context = this.canvas[0].getContext('2d');
     this.btnNextStep = this.domElem.find('#next-button');
     this.reloadLink = this.domElem.find('#reload-water-wheat');
+    this.scrollProgress = this.domElem.find('#scroll-progress');
 };
 
 waterWheat.prototype.bind = function() {
+    var self = this;
     this.getSelectors();
     View.prototype.bind.call(this);
     this.start();
 
     this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
-};
-
-waterWheat.prototype.getImgPath = function(i) {
-    var prefix = '';
-
-    if (i < 100) {
-        prefix += '0';
-    }
-
-    if (i < 10) {
-        prefix += '0';
-    }
-
-    return this.imgBase + prefix + i + '.png';
-};
-
-waterWheat.prototype.start = function() {
-    $(window).on('resize', $.proxy(this.resize, this));
-
-    this.resize();
-
-    this.loader = new Loader();
-    this.loader.addImages(this.imagesToLoad);
-    this.loader._onComplete.add(this.onLoaderComplete, this);
-
-    this.loader.start();
+    this.btnNextStep.on('click', $.proxy(this.onBtnNextStepClick, this));
+    VirtualScroll.on(function(e) {
+        self.onVirtualScroll(e);
+    });
 };
 
 waterWheat.prototype.onLoaderComplete = function() {
@@ -126,36 +100,20 @@ waterWheat.prototype.resize = function() {
     this.currentFrame = null;
 }
 
-waterWheat.prototype.clear = function() {
-    this.context.clearRect( 0, 0, this.videoW, this.videoH);
-};
-
-waterWheat.prototype.getFrame = function() {
-    if (this.index < 299) {
-        this.index++;
-    }
-    console.log(this.index);
-    return this.images[this.index];
-};
-
-waterWheat.prototype.draw = function( img ) {
-    this.getSelectors();
-    this.context.drawImage( img, 0, 0, this.videoW, this.videoH );
-};
-
 waterWheat.prototype.update = function() {
     var frame = this.getFrame();
-    var self = this;
     if (typeof frame != 'undefined' && frame != this.currentFrame) {
         this.clear();
         this.draw( frame );
         this.currentFrame = frame;
     }
 
-    if (this.index == 299) {
-        self.return;
+    if (this.index == this.images.length) {
+        this.animationEnded = true;
+        this.return;
         this.btnNextStep.fadeIn();
         this.reloadLink.fadeIn();
+        this.scrollProgress.fadeIn();
     };
 };
 
@@ -166,6 +124,40 @@ waterWheat.prototype.onReloadLinkClick = function(e) {
     this.btnNextStep.fadeOut();
     this.reloadLink.fadeOut();
     this.index = 0;
-    console.log(this.index);
+
     this.update();
+};
+
+waterWheat.prototype.onBtnNextStepClick = function(e) {
+    e.preventDefault();
+
+    var warmWheat = app.viewController.views.warmWheat;
+
+    this.animateOut();
+
+    app.router.navigate(warmWheat.slug);
+
+};
+
+waterWheat.prototype.onVirtualScroll = function(e) {
+    var maximumScroll = -1000;
+    // Check if the user scrolls up
+    if (e.deltaY < 0) {
+        if (this.animationEnded) {
+            var percentage = e.y / maximumScroll * 100;
+            var cssToSet = (percentage < 100) ? percentage : 100;
+
+            this.scrollProgress.find('#progress-bar').css('height', cssToSet);
+        }
+
+        if (e.y < maximumScroll && !this.scrollTriggered) {
+            this.scrollTriggered = true;
+            var warmWheat = app.viewController.views.warmWheat;
+
+            //$('#main').append(warmWheat.dom);
+
+            //this.animateOut();
+            app.router.navigate(warmWheat.slug);
+        }
+    }
 };
