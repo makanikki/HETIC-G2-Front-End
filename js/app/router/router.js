@@ -62,14 +62,23 @@ Router.prototype.createRoutes = function() {
 			console.log( '## Navigate view cutWheat' );
 	});
 
-    crossroads.addRoute( '/water-wheat', function() {
+	crossroads.addRoute( '/water-wheat', function() {
 
-            self._onNavigate.dispatch({
-                 view: 'waterWheat'
-            });
+		self._onNavigate.dispatch({
+			view: 'waterWheat'
+		});
 
-            console.log( '## Navigate view waterWheat' );
-    });
+		console.log( '## Navigate view waterWheat' );
+	});
+
+	crossroads.addRoute( '/warm-wheat', function() {
+
+		self._onNavigate.dispatch({
+			view: 'warmWheat'
+		});
+
+		console.log( '## Navigate view warmWheat' );
+	});
 
 };
 

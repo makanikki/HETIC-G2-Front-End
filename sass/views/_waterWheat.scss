@@ -1,4 +1,4 @@
-#waterWheat{
+#waterWheat, #warmWheat{
   background: $creamyWhite;
   text-align: center;
   width: 100vw;
@@ -16,34 +16,25 @@
     margin-bottom: 20px;
   }
 
-  #next-button {
-    @include regularText(18px);
+  #scroll-progress {
+    z-index: 99;
+    width: 50px;
+    height: 100px;
 
-    height: 50px;
-    padding: 5px;
-    background: transparent;
-    position:relative;
-    z-index: 100;
-    border: 2px solid $brown;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
 
-    margin-top: 10px;
-    padding: 20px 70px;
-    line-height: 10px;
+    background: $darkenRegularColor;
+
     display: none;
-    color: $brown;
-    transition: all 0.4s ease;
 
-    &:hover{
-      background: $brown;
-      color: $creamyWhite;
-      cursor: pointer;
-    }
-
-    &:focus {
-      outline: none;
-    }
-
-    &:active {
+    #progress-bar {
+      width: 100%;
+      height: 0;
+      position: absolute;
+      bottom: 0;
       background: $lightenBackgroundDark;
     }
 
@@ -70,7 +61,7 @@
   }
 
 
-  #animation-water-wheat{
+  #animation-water-wheat, #animation-warm-wheat{
     z-index: 50;
     width: 100%;
     height: 100%;

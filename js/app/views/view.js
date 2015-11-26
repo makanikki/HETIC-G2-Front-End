@@ -1,153 +1,163 @@
 var View = function(){
-	// Constructor
-	this.loaded = false;
-	this.container = app.mainContainer;
+    // Constructor
+    this.loaded = false;
+    this.container = app.mainContainer;
 
-	this.domElem = null;
+    this.domElem = null;
 
-	this.domId = this.id;
+    this.domId = this.id;
 
-	if ( typeof this.templateId == 'undefined' ){
-		this.templateId = this.id;
-	}
+    if ( typeof this.templateId == 'undefined' ){
+        this.templateId = this.id;
+    }
 
-	if ( typeof this.datas == 'undefined' ){
-		this.datas = app.datas;
-	}
+    if ( typeof this.datas == 'undefined' ){
+        this.datas = app.datas;
+    }
 
-	// Create useful signals
-	this._onViewLoadComplete = new signals.Signal();
+    // Create useful signals
+    this._onViewLoadComplete = new signals.Signal();
 
-	this._onAnimateIn = new signals.Signal();
-	this._onAnimateOut = new signals.Signal();
+    this._onAnimateIn = new signals.Signal();
+    this._onAnimateOut = new signals.Signal();
 
-	this.images = {};
+    this.images = {};
 
-	this.vh = 0;
-	this.vw = 0;
+    this.vh = 0;
+    this.vw = 0;
 
-	// Init view
-	this.init();
+    // Canvas animation relative
+    this.ratio = 1920 / 1080;
+    this.currentFrame = null;
+
+    this.images = [];
+
+    this.imagesToLoad = {};
+
+    this.index = 0;
+
+    // Init view
+    this.init();
 
 };
 
 // Init view
 View.prototype.init = function() {
 
-	this.template();
+    this.template();
 
 };
 
 // Template view
 View.prototype.template = function() {
 
-	this.setViewportInfos();
+    this.setViewportInfos();
 
-	this.dom = app.template( this.templateId, this.datas );
+    this.dom = app.template( this.templateId, this.datas );
 
 };
 
 View.prototype.setViewportInfos = function() {
-	this.vh = $(window).height();
-	this.vw = $(window).width();
+    this.vh = $(window).height();
+    this.vw = $(window).width();
 
-	this.datas = {
-		vh: this.vh,
-		vw: this.vw,
-		svg_width: 13.3 * this.vw,
-	};
+    this.datas = {
+        vh: this.vh,
+        vw: this.vw,
+        svg_width: 13.3 * this.vw,
+    };
 
 };
 
 // Load view
 View.prototype.load = function() {
-	
-	// If there is something to load
-	if ( app.getObjectLength( this.images ) > 0 ){
 
-		// Create loader
-		this.loader = new Loader();
+    // If there is something to load
+    if ( app.getObjectLength( this.images ) > 0 ){
 
-		// Listen to onComplete event
-		this.loader._onComplete.add( this.onLoadComplete, this );
+        // Create loader
+        this.loader = new Loader();
 
-		// Add images to the queue
-		this.loader.addImages( this.images );
+        // Listen to onComplete event
+        this.loader._onComplete.add( this.onLoadComplete, this );
 
-		// Start loader
-		this.loader.start();
+        // Add images to the queue
+        this.loader.addImages( this.images );
 
-	} else {
+        // Start loader
+        this.loader.start();
 
-		// If nothing to load we go directly to onLoadComplete
-		this.onLoadComplete();
+    } else {
 
-	}
+        // If nothing to load we go directly to onLoadComplete
+        this.onLoadComplete();
+
+    }
 
 };
 
 // Once the view is loaded
 View.prototype.onLoadComplete = function() {
-	
-	// Remove listener if we used the loader
-	if ( this.loader ) this.loader._onComplete.remove( this.onLoadComplete, this );
 
-	// Set the view as loaded
-	this.loaded = true;
+    // Remove listener if we used the loader
+    if ( this.loader ) this.loader._onComplete.remove( this.onLoadComplete, this );
 
-	// Dispatch on view load complete event
-	this._onViewLoadComplete.dispatch();
+    // Set the view as loaded
+    this.loaded = true;
+
+    // Dispatch on view load complete event
+    this._onViewLoadComplete.dispatch();
 
 };
 
 // Animate view in
 View.prototype.animateIn = function() {
 
-	// Remove on view load complete event
-	this._onViewLoadComplete.remove( this.animateIn, this );
+    // Remove on view load complete event
+    this._onViewLoadComplete.remove( this.animateIn, this );
 
-	// If the view is not loaded yet
-	if ( !this.loaded ){
+    // If the view is not loaded yet
+    if ( !this.loaded ){
 
-		// Listen to the on view load complete event
-		// for going back to animateIn once loaded
-		this._onViewLoadComplete.add( this.animateIn, this );
+        // Listen to the on view load complete event
+        // for going back to animateIn once loaded
+        this._onViewLoadComplete.add( this.animateIn, this );
 
-		// Load it
-		this.load();
+        // Load it
+        this.load();
 
-		return;
+        return;
 
-	}
-	
-	// Append dom to the container
-	this.container.append( this.dom );
+    }
 
-	// Set selectors
-	this.setSelectors();
+    // Append dom to the container
+    this.container.append( this.dom );
 
-	// Resize view
-	this.resize();
+    // Set selectors
+    this.setSelectors();
 
-	// Bind view events
-	this.bind();
+    // Resize view
+    this.resize();
+
+    // Bind view events
+    this.bind();
 
 };
 
 // Set selectors
 View.prototype.setSelectors = function() {
-	
-	// Set domElem
-	this.domElem = this.container.find('#' + this.domId);
 
-	// Hide it
-	this.domElem.hide();
+    // Set domElem
+    this.domElem = this.container.find('#' + this.domId);
+
+    // Hide it
+    this.domElem.hide();
 
 };
 
 // Resize view
 View.prototype.resize = function() {
-	this.setViewportInfos();
+    this.setViewportInfos();
 
 };
 
@@ -159,48 +169,90 @@ View.prototype.update = function() {
 // Bind view events
 View.prototype.bind = function() {
 
-	// Bind onUpdate = requestAnimationFrame event
-	app._onUpdate.add(this.update, this);
+    // Bind onUpdate = requestAnimationFrame event
+    app._onUpdate.add(this.update, this);
 
-	// Bind resize event
-	app._onResize.add(this.resize, this);
+    // Bind resize event
+    app._onResize.add(this.resize, this);
 
 };
 
 // Once view is animated in
 View.prototype.onAnimateIn = function() {
-	
-	// Dispatch onAnimateIn event
-	this._onAnimateIn.dispatch();
+
+    // Dispatch onAnimateIn event
+    this._onAnimateIn.dispatch();
 
 };
 
 // Animate view out
 View.prototype.animateOut = function() {
-	
-	// Unbind view events
-	this.unbind();
+
+    // Unbind view events
+    this.unbind();
 
 };
 
 // Unbind view events
 View.prototype.unbind = function() {
-	
-	// Unbind onUpdate
-	app._onUpdate.remove(this.update, this);
 
-	// Unbind onResize
-	app._onResize.remove(this.resize, this);
+    // Unbind onUpdate
+    app._onUpdate.remove(this.update, this);
+
+    // Unbind onResize
+    app._onResize.remove(this.resize, this);
 
 };
 
 // Once view is animated out
 View.prototype.onAnimateOut = function() {
-	
-	// Remove domElem
-	this.domElem.remove();
 
-	// Dispatch onAnimateOut event
-	this._onAnimateOut.dispatch();
+    // Remove domElem
+    this.domElem.remove();
+    // Dispatch onAnimateOut event
+    this._onAnimateOut.dispatch();
 
+};
+
+
+// Canvas animation relative
+View.prototype.getImgPath = function(i) {
+    var prefix = '';
+
+    if (i < 100) {
+        prefix += '0';
+    }
+
+    if (i < 10) {
+        prefix += '0';
+    }
+
+    return this.imgBase + prefix + i + '.png';
+};
+
+View.prototype.start = function() {
+    this.resize();
+
+    this.loader = new Loader();
+    this.loader.addImages(this.imagesToLoad);
+    this.loader._onComplete.add(this.onLoaderComplete, this);
+
+    this.loader.start();
+};
+
+View.prototype.clear = function() {
+    this.context.clearRect( 0, 0, this.videoW, this.videoH);
+};
+
+View.prototype.getFrame = function() {
+    if (this.index < Object.keys(this.imagesToLoad).length) {
+        this.index++;
+    }
+
+    return this.images[this.index];
+};
+
+View.prototype.draw = function( img ) {
+    this.getSelectors();
+    this.context.drawImage( img, 0, 0, this.videoW, this.videoH );
 };
