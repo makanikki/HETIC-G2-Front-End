@@ -130,7 +130,6 @@ cutWheat.prototype.update = function() {
 };
 
 cutWheat.prototype.onBtnNextStepClick = function(e) {
-    console.log('click');
     var waterWheat = app.viewController.views.waterWheat;
     e.preventDefault();
 

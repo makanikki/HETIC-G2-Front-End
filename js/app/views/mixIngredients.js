@@ -1,22 +1,23 @@
-var warmWheat = function() {
+var mixIngredients = function() {
 
-    this.id = "warmWheat";
-    this.slug = "warm-wheat";
+    this.id = 'mixIngredients';
+    this.slug = 'mix-ingredients';
     View.apply(this, arguments);
+
+    this.startAnimation = false;
 
     this.imagesAreLoaded = false;
 
-    this.imgBase = 'assets/images/warm-wheat/on_met_le_chauffage_00';
+    this.imgBase = 'assets/images/mix-ingredients/mix-ingredients-00';
 
-    for( var i = 300; i <= 480; i += 3 ){
+    for( var i = 0; i <= 333; i+=3 ){
         this.imagesToLoad[ 'frame-' + i] = this.getImgPath( i );
     }
+}
 
-};
+mixIngredients.prototype = Object.create(View.prototype);
 
-warmWheat.prototype = Object.create(View.prototype);
-
-warmWheat.prototype.animateIn = function() {
+mixIngredients.prototype.animateIn = function() {
 
     View.prototype.animateIn.call(this);
 
@@ -30,7 +31,7 @@ warmWheat.prototype.animateIn = function() {
 
 };
 
-warmWheat.prototype.animateOut = function() {
+mixIngredients.prototype.animateOut = function() {
 
     View.prototype.animateOut.call(this);
 
@@ -42,14 +43,17 @@ warmWheat.prototype.animateOut = function() {
 
 };
 
-warmWheat.prototype.getSelectors = function() {
-    this.canvas = this.domElem.find('#animation-warm-wheat');
+mixIngredients.prototype.getSelectors = function() {
+    this.canvas = this.domElem.find('#animation-mix-ingredients');
     this.context = this.canvas[0].getContext('2d');
     this.btnNextStep = this.domElem.find('#next-button');
-    this.reloadLink = this.domElem.find('#reload-water-wheat');
+    this.reloadLink = this.domElem.find('#reload-mix-ingredients');
+    this.startRange = this.domElem.find('.range-interaction');
+    this.informationAnimation = this.domElem.find('.information');
+    this.instructionInteraction = this.domElem.find('.instructions-mix-ingredients');
 };
 
-warmWheat.prototype.bind = function() {
+mixIngredients.prototype.bind = function() {
     this.getSelectors();
     View.prototype.bind.call(this);
     this.start();
@@ -57,16 +61,16 @@ warmWheat.prototype.bind = function() {
     this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
 };
 
-warmWheat.prototype.onLoaderComplete = function() {
+mixIngredients.prototype.onLoaderComplete = function() {
     var self = this;
     $.each( this.imagesToLoad, function(id, url){
-       self.images.push( self.loader.queue.getResult( id ));
+        self.images.push( self.loader.queue.getResult( id ));
     });
-
+    console.log('images loaded');
     this.imagesAreLoaded = true;
 };
 
-warmWheat.prototype.resize = function() {
+mixIngredients.prototype.resize = function() {
     View.prototype.resize.call(this);
 
     this.getSelectors();
@@ -94,10 +98,12 @@ warmWheat.prototype.resize = function() {
 
 
     this.currentFrame = null;
-}
+};
 
-warmWheat.prototype.update = function() {
-    if (this.imagesAreLoaded == true) {
+mixIngredients.prototype.update = function() {
+    if (this.imagesAreLoaded == true && this.startRange.val() == 10) {
+        this.startRange.fadeOut();
+        this.instructionInteraction.fadeOut();
         var frame = this.getFrame();
         var self = this;
         if (typeof frame != 'undefined' && frame != this.currentFrame) {
@@ -106,22 +112,29 @@ warmWheat.prototype.update = function() {
             this.currentFrame = frame;
         }
 
-        if (this.index == this.images.length - 1) {
-            //self.return;
+        if (this.index == 55) {
+            console.log('hops');
+            this.informationAnimation.html('Hops is added after water');
+        };
+
+        if (this.index == this.images.length) {
             this.btnNextStep.fadeIn();
             this.reloadLink.fadeIn();
-        }
-        ;
+        };
     }
-};
+}
 
-warmWheat.prototype.onReloadLinkClick = function(e) {
-    this.getSelectors();
+mixIngredients.prototype.onReloadLinkClick = function(e) {
     e.preventDefault();
 
     this.btnNextStep.fadeOut();
+    this.btnNextStep.fadeOut();
     this.reloadLink.fadeOut();
+    this.startRange.val(0).change();
     this.index = 0;
+    this.startAnimation = false;
+    this.instructionInteraction.fadeIn();
+    this.startRange.fadeIn();
     this.update();
-};
+}
 

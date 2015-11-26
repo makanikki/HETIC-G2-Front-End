@@ -7,6 +7,8 @@ var waterWheat = function() {
     this.animationEnded = false;
     this.scrollTriggered = false;
 
+    this.imagesAreLoaded = false;
+
     this.imgBase = 'assets/images/water-wheat/ble_bac_water_00';
 
     for( var i = 0; i <= 299; i += 3 ){
@@ -68,6 +70,7 @@ waterWheat.prototype.onLoaderComplete = function() {
     $.each( this.imagesToLoad, function(id, url){
        self.images.push( self.loader.queue.getResult( id ));
     });
+    this.imagesAreLoaded = true;
 };
 
 waterWheat.prototype.resize = function() {
@@ -101,20 +104,22 @@ waterWheat.prototype.resize = function() {
 }
 
 waterWheat.prototype.update = function() {
-    var frame = this.getFrame();
-    if (typeof frame != 'undefined' && frame != this.currentFrame) {
-        this.clear();
-        this.draw( frame );
-        this.currentFrame = frame;
-    }
+    if (this.imagesAreLoaded == true) {
+        var frame = this.getFrame();
+        if (typeof frame != 'undefined' && frame != this.currentFrame) {
+            this.clear();
+            this.draw(frame);
+            this.currentFrame = frame;
+        }
 
-    if (this.index == this.images.length) {
-        this.animationEnded = true;
-        this.return;
-        this.btnNextStep.fadeIn();
-        this.reloadLink.fadeIn();
-        this.scrollProgress.fadeIn();
-    };
+        if (this.index == this.images.length) {
+            this.animationEnded = true;
+            this.return;
+            this.btnNextStep.fadeIn();
+            this.reloadLink.fadeIn();
+            this.scrollProgress.fadeIn();
+        };
+    }
 };
 
 waterWheat.prototype.onReloadLinkClick = function(e) {

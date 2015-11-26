@@ -1,22 +1,21 @@
-var warmWheat = function() {
+var crushWheat = function() {
 
-    this.id = "warmWheat";
-    this.slug = "warm-wheat";
+    this.id = 'crushWheat';
+    this.slug = 'crush-wheat';
     View.apply(this, arguments);
 
-    this.imagesAreLoaded = false;
+    this.startAnimation = false;
 
-    this.imgBase = 'assets/images/warm-wheat/on_met_le_chauffage_00';
+    this.imgBase = 'assets/images/crush-wheat/crush-wheat-00';
 
-    for( var i = 300; i <= 480; i += 3 ){
+    for( var i = 0; i <= 380; i+=3 ){
         this.imagesToLoad[ 'frame-' + i] = this.getImgPath( i );
     }
-
 };
 
-warmWheat.prototype = Object.create(View.prototype);
+crushWheat.prototype = Object.create(View.prototype);
 
-warmWheat.prototype.animateIn = function() {
+crushWheat.prototype.animateIn = function() {
 
     View.prototype.animateIn.call(this);
 
@@ -30,7 +29,7 @@ warmWheat.prototype.animateIn = function() {
 
 };
 
-warmWheat.prototype.animateOut = function() {
+crushWheat.prototype.animateOut = function() {
 
     View.prototype.animateOut.call(this);
 
@@ -42,31 +41,34 @@ warmWheat.prototype.animateOut = function() {
 
 };
 
-warmWheat.prototype.getSelectors = function() {
-    this.canvas = this.domElem.find('#animation-warm-wheat');
+crushWheat.prototype.getSelectors = function() {
+    this.canvas = this.domElem.find('#animation-crush-wheat');
     this.context = this.canvas[0].getContext('2d');
     this.btnNextStep = this.domElem.find('#next-button');
-    this.reloadLink = this.domElem.find('#reload-water-wheat');
+    this.reloadLink = this.domElem.find('#reload-crush-wheat');
+    this.startButton = this.domElem.find('.start-crush-wheat');
 };
 
-warmWheat.prototype.bind = function() {
+crushWheat.prototype.bind = function() {
     this.getSelectors();
     View.prototype.bind.call(this);
     this.start();
 
+    this.btnNextStep.on('click', $.proxy(this.onBtnNextStepClick, this));
+    this.startButton.on('click', $.proxy(this.onStartButton, this));
     this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
 };
 
-warmWheat.prototype.onLoaderComplete = function() {
+crushWheat.prototype.onLoaderComplete = function() {
     var self = this;
     $.each( this.imagesToLoad, function(id, url){
-       self.images.push( self.loader.queue.getResult( id ));
+        self.images.push( self.loader.queue.getResult( id ));
     });
-
+    console.log('images loaded');
     this.imagesAreLoaded = true;
 };
 
-warmWheat.prototype.resize = function() {
+crushWheat.prototype.resize = function() {
     View.prototype.resize.call(this);
 
     this.getSelectors();
@@ -94,10 +96,10 @@ warmWheat.prototype.resize = function() {
 
 
     this.currentFrame = null;
-}
+};
 
-warmWheat.prototype.update = function() {
-    if (this.imagesAreLoaded == true) {
+crushWheat.prototype.update = function() {
+    if (this.imagesAreLoaded == true && this.startAnimation == true) {
         var frame = this.getFrame();
         var self = this;
         if (typeof frame != 'undefined' && frame != this.currentFrame) {
@@ -106,16 +108,21 @@ warmWheat.prototype.update = function() {
             this.currentFrame = frame;
         }
 
-        if (this.index == this.images.length - 1) {
-            //self.return;
+        if (this.index == this.images.length) {
+            self.return;
             this.btnNextStep.fadeIn();
             this.reloadLink.fadeIn();
-        }
-        ;
+        };
     }
 };
 
-warmWheat.prototype.onReloadLinkClick = function(e) {
+crushWheat.prototype.onStartButton = function() {
+    this.getSelectors();
+    this.startButton.fadeOut();
+    this.startAnimation = true;
+};
+
+crushWheat.prototype.onReloadLinkClick = function(e) {
     this.getSelectors();
     e.preventDefault();
 
@@ -123,5 +130,13 @@ warmWheat.prototype.onReloadLinkClick = function(e) {
     this.reloadLink.fadeOut();
     this.index = 0;
     this.update();
+    this.startAnimation = false;
+    this.startButton.fadeIn();
 };
 
+crushWheat.prototype.onBtnNextStepClick = function(e) {
+    var mixIngredients = app.viewController.views.mixIngredients;
+    e.preventDefault();
+
+    app.router.navigate(mixIngredients.slug);
+};
