@@ -1,22 +1,22 @@
-var warmWheat = function() {
+var Fermentation = function() {
 
-    this.id = "warmWheat";
-    this.slug = "warm-wheat";
+    this.id = "fermentation";
+    this.slug = "fermentation";
     View.apply(this, arguments);
 
     this.imagesAreLoaded = false;
 
-    this.imgBase = 'assets/images/warm-wheat/on_met_le_chauffage_00';
+    this.imgBase = 'assets/images/fermentation/fermentation-00';
 
-    for( var i = 300; i <= 480; i += 3 ){
+    for( var i = 0; i <= 270; i+=3){
         this.imagesToLoad[ 'frame-' + i] = this.getImgPath( i );
     }
 
 };
 
-warmWheat.prototype = Object.create(View.prototype);
+Fermentation.prototype = Object.create(View.prototype);
 
-warmWheat.prototype.animateIn = function() {
+Fermentation.prototype.animateIn = function() {
 
     View.prototype.animateIn.call(this);
 
@@ -30,7 +30,7 @@ warmWheat.prototype.animateIn = function() {
 
 };
 
-warmWheat.prototype.animateOut = function() {
+Fermentation.prototype.animateOut = function() {
 
     View.prototype.animateOut.call(this);
 
@@ -42,32 +42,31 @@ warmWheat.prototype.animateOut = function() {
 
 };
 
-warmWheat.prototype.getSelectors = function() {
-    this.canvas = this.domElem.find('#animation-warm-wheat');
+Fermentation.prototype.getSelectors = function() {
+    this.canvas = this.domElem.find('#animation-fermentation');
     this.context = this.canvas[0].getContext('2d');
     this.btnNextStep = this.domElem.find('#next-button');
-    this.reloadLink = this.domElem.find('#reload-water-wheat');
+    this.reloadLink = this.domElem.find('#reload-fermentation');
 };
 
-warmWheat.prototype.bind = function() {
+Fermentation.prototype.bind = function() {
+    var self = this;
     this.getSelectors();
     View.prototype.bind.call(this);
     this.start();
 
     this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
-    this.btnNextStep.on('click', $.proxy(this.onBtnNextStepClick, this));
 };
 
-warmWheat.prototype.onLoaderComplete = function() {
+Fermentation.prototype.onLoaderComplete = function() {
     var self = this;
     $.each( this.imagesToLoad, function(id, url){
-       self.images.push( self.loader.queue.getResult( id ));
+        self.images.push( self.loader.queue.getResult( id ));
     });
-
     this.imagesAreLoaded = true;
 };
 
-warmWheat.prototype.resize = function() {
+Fermentation.prototype.resize = function() {
     View.prototype.resize.call(this);
 
     this.getSelectors();
@@ -95,12 +94,11 @@ warmWheat.prototype.resize = function() {
 
 
     this.currentFrame = null;
-}
+};
 
-warmWheat.prototype.update = function() {
+Fermentation.prototype.update = function() {
     if (this.imagesAreLoaded == true) {
         var frame = this.getFrame();
-        var self = this;
         if (typeof frame != 'undefined' && frame != this.currentFrame) {
             this.clear();
             this.draw(frame);
@@ -108,32 +106,22 @@ warmWheat.prototype.update = function() {
         }
 
         if (this.index == this.images.length) {
-            //self.return;
+            this.animationEnded = true;
+            this.return;
             this.btnNextStep.fadeIn();
             this.reloadLink.fadeIn();
-        }
-        ;
+        };
     }
 };
 
-warmWheat.prototype.onReloadLinkClick = function(e) {
+Fermentation.prototype.onReloadLinkClick = function(e) {
     this.getSelectors();
     e.preventDefault();
 
     this.btnNextStep.fadeOut();
     this.reloadLink.fadeOut();
     this.index = 0;
+
     this.update();
-};
-
-warmWheat.prototype.onBtnNextStepClick = function(e) {
-    e.preventDefault();
-
-    var crushWheat = app.viewController.views.crushWheat;
-
-    this.animateOut();
-
-    app.router.navigate(crushWheat.slug);
-
 };
 

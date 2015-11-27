@@ -47,6 +47,7 @@ waterWheat.prototype.animateOut = function() {
 waterWheat.prototype.getSelectors = function() {
     this.canvas = this.domElem.find('#animation-water-wheat');
     this.context = this.canvas[0].getContext('2d');
+    this.instructionScroll = this.domElem.find('.instructions-warm-wheat');
     this.btnNextStep = this.domElem.find('#next-button');
     this.reloadLink = this.domElem.find('#reload-water-wheat');
     this.scrollProgress = this.domElem.find('#scroll-progress');
@@ -102,7 +103,7 @@ waterWheat.prototype.resize = function() {
 
 
     this.currentFrame = null;
-}
+};
 
 waterWheat.prototype.update = function() {
     if (this.imagesAreLoaded == true) {
@@ -116,7 +117,7 @@ waterWheat.prototype.update = function() {
         if (this.index == this.images.length) {
             this.animationEnded = true;
             this.return;
-            this.btnNextStep.fadeIn();
+            this.instructionScroll.fadeIn();
             this.reloadLink.fadeIn();
             this.scrollProgress.fadeIn();
             this.scrollText.fadeIn();

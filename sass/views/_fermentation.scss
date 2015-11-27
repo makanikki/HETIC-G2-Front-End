@@ -1,4 +1,4 @@
-#crushWheat{
+#fermentation{
   background: $creamyWhite;
   text-align: center;
   width: 100vw;
@@ -12,28 +12,8 @@
     position:relative;
     width: 50%;
     margin: 0 auto;
-    margin-top: 5%;
+    margin-top: 15%;
     margin-bottom: 20px;
-  }
-
-  .start-crush-wheat{
-    position: relative;
-    z-index: 100;
-    outline:none;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    background: $red;
-    border: none;
-    @include regularText(20px);
-    color: $regularColor;
-    border: 3px solid lightgrey;
-    transition: all 0.2s ease;
-
-    &:hover{
-      background: $lightenRed;
-      cursor: pointer;
-    }
   }
 
   #next-button {
@@ -69,12 +49,13 @@
 
   }
 
-  #reload-crush-wheat{
+  #reload-fermentation{
     @include regularText(15px);
     border:none;
     outline: none;
     background: none;
     position: relative;
+    display: block;
     z-index: 100;
     display: none;
     top: 15px;
@@ -90,7 +71,7 @@
   }
 
 
-  #animation-crush-wheat{
+  #animation-fermentation{
     z-index: 50;
     width: 100%;
     height: 100%;

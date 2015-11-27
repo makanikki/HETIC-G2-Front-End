@@ -59,6 +59,7 @@ mixIngredients.prototype.bind = function() {
     this.start();
 
     this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
+    this.btnNextStep.on('click', $.proxy(this.onBtnNextStepClick, this));
 };
 
 mixIngredients.prototype.onLoaderComplete = function() {
@@ -114,7 +115,7 @@ mixIngredients.prototype.update = function() {
 
         if (this.index == 55) {
             console.log('hops');
-            this.informationAnimation.html('Hops is added after water');
+            this.informationAnimation.html('Il faut rajouter l’épice de la bière : le houblon, qui va rendre la boisson désaltérante et parfumée.');
         };
 
         if (this.index == this.images.length) {
@@ -137,4 +138,15 @@ mixIngredients.prototype.onReloadLinkClick = function(e) {
     this.startRange.fadeIn();
     this.update();
 }
+
+mixIngredients.prototype.onBtnNextStepClick = function(e) {
+    e.preventDefault();
+
+    var fermentation = app.viewController.views.fermentation;
+
+    this.animateOut();
+
+    app.router.navigate(fermentation.slug);
+
+};
 
