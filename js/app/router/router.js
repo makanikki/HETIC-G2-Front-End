@@ -98,6 +98,15 @@ Router.prototype.createRoutes = function() {
             console.log('## Navigate view mixIngredients');
     });
 
+    crossroads.addRoute( '/fermentation', function() {
+
+            self._onNavigate.dispatch({
+                view: 'fermentation'
+            });
+
+            console.log('## Navigate view fermentation');
+    });
+
 };
 
 // Navigate

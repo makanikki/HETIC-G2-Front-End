@@ -55,6 +55,7 @@ warmWheat.prototype.bind = function() {
     this.start();
 
     this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
+    this.btnNextStep.on('click', $.proxy(this.onBtnNextStepClick, this));
 };
 
 warmWheat.prototype.onLoaderComplete = function() {
@@ -106,7 +107,7 @@ warmWheat.prototype.update = function() {
             this.currentFrame = frame;
         }
 
-        if (this.index == this.images.length - 1) {
+        if (this.index == this.images.length) {
             //self.return;
             this.btnNextStep.fadeIn();
             this.reloadLink.fadeIn();
@@ -123,5 +124,16 @@ warmWheat.prototype.onReloadLinkClick = function(e) {
     this.reloadLink.fadeOut();
     this.index = 0;
     this.update();
+};
+
+warmWheat.prototype.onBtnNextStepClick = function(e) {
+    e.preventDefault();
+
+    var crushWheat = app.viewController.views.crushWheat;
+
+    this.animateOut();
+
+    app.router.navigate(crushWheat.slug);
+
 };
 
