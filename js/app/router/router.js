@@ -107,6 +107,15 @@ Router.prototype.createRoutes = function() {
             console.log('## Navigate view fermentation');
     });
 
+    crossroads.addRoute( '/beer', function() {
+
+            self._onNavigate.dispatch({
+                view: 'beer'
+            });
+
+            console.log('## Navigate view beer');
+    });
+
 };
 
 // Navigate
