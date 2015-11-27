@@ -13,7 +13,7 @@ Home.prototype.getSelectors = function() {
 	this.svg.hide();
 	this.waterFill = document.querySelector('.water-fill');
 
-}
+};
 
 Home.prototype.bind = function() {
 	this.getSelectors();
@@ -30,8 +30,6 @@ Home.prototype.onButtonClick = function(e) {
 
 	this.startWaveEffect();
 
-	$('#main').append(cutWheat.dom);
-
 	setTimeout(
 		$.proxy(function(){
 			app.router.navigate(cutWheat.slug);
@@ -40,7 +38,7 @@ Home.prototype.onButtonClick = function(e) {
 
 	setTimeout(
 		$.proxy(function() {
-			this.svg.remove();
+			$('#svg').remove();
 		},this),
 		6000);
 

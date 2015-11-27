@@ -114,6 +114,7 @@ cutWheat.prototype.update = function() {
     var self = this;
     if (typeof frame != 'undefined' && frame != this.currentFrame) {
         this.clear();
+        this.getSelectors();
         this.draw( frame );
         this.currentFrame = frame;
     }

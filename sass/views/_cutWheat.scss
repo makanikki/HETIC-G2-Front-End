@@ -115,39 +115,6 @@
     z-index: 100;
   }
 
-  #next-button {
-    @include regularText(18px);
-
-    height: 50px;
-    padding: 5px;
-    background: transparent;
-    position:relative;
-    z-index: 100;
-    border: 2px solid $brown;
-
-    margin-top: 10px;
-    padding: 20px 70px;
-    line-height: 10px;
-    display: none;
-    color: $brown;
-    transition: all 0.4s ease;
-
-    &:hover{
-      background: $brown;
-      color: $creamyWhite;
-      cursor: pointer;
-    }
-
-    &:focus {
-      outline: none;
-    }
-
-    &:active {
-      background: $lightenBackgroundDark;
-    }
-
-  }
-
   #reload-cut-wheat{
     @include regularText(15px);
     border:none;

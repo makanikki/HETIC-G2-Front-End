@@ -6,14 +6,12 @@
   overflow: hidden;
 
   .information{
-    @include regularText(20px);
-    color: $brown;
-    z-index: 100;
-    position:relative;
-    width: 50%;
-    margin: 0 auto;
-    margin-top: 15%;
-    margin-bottom: 20px;
+    @include informationText();
+  }
+
+  .scroll-text {
+    @include informationText();
+    display: none;
   }
 
   #scroll-progress {
