@@ -22,6 +22,7 @@ var View = function(){
     this._onAnimateOut = new signals.Signal();
 
     this.images = {};
+    this.imagesAreLoaded = false;
 
     this.vh = 0;
     this.vw = 0;
@@ -253,6 +254,5 @@ View.prototype.getFrame = function() {
 };
 
 View.prototype.draw = function( img ) {
-    this.getSelectors();
     this.context.drawImage( img, 0, 0, this.videoW, this.videoH );
 };

@@ -50,6 +50,7 @@ waterWheat.prototype.getSelectors = function() {
     this.btnNextStep = this.domElem.find('#next-button');
     this.reloadLink = this.domElem.find('#reload-water-wheat');
     this.scrollProgress = this.domElem.find('#scroll-progress');
+    this.scrollText = this.domElem.find('.scroll-text');
 };
 
 waterWheat.prototype.bind = function() {
@@ -118,6 +119,7 @@ waterWheat.prototype.update = function() {
             this.btnNextStep.fadeIn();
             this.reloadLink.fadeIn();
             this.scrollProgress.fadeIn();
+            this.scrollText.fadeIn();
         };
     }
 };
@@ -153,16 +155,16 @@ waterWheat.prototype.onVirtualScroll = function(e) {
             var cssToSet = (percentage < 100) ? percentage : 100;
 
             this.scrollProgress.find('#progress-bar').css('height', cssToSet);
-        }
 
-        if (e.y < maximumScroll && !this.scrollTriggered) {
-            this.scrollTriggered = true;
-            var warmWheat = app.viewController.views.warmWheat;
+            if (e.y < maximumScroll && !this.scrollTriggered) {
+                this.scrollTriggered = true;
+                var warmWheat = app.viewController.views.warmWheat;
 
-            //$('#main').append(warmWheat.dom);
+                //$('#main').append(warmWheat.dom);
 
-            //this.animateOut();
-            app.router.navigate(warmWheat.slug);
+                //this.animateOut();
+                app.router.navigate(warmWheat.slug);
+            }
         }
     }
 };
