@@ -1,6 +1,7 @@
 var Home = function(){
 
 	this.id = 'home';
+    this.slug = '';
 
 	View.apply(this, arguments);
 };

@@ -55,6 +55,7 @@ Fermentation.prototype.bind = function() {
     View.prototype.bind.call(this);
     this.start();
 
+    this.btnNextStep.on('click', $.proxy(this.onBtnNextStepClick, this));
     this.reloadLink.on('click', $.proxy(this.onReloadLinkClick, this));
 };
 
@@ -125,3 +126,13 @@ Fermentation.prototype.onReloadLinkClick = function(e) {
     this.update();
 };
 
+Fermentation.prototype.onBtnNextStepClick = function(e) {
+    e.preventDefault();
+
+    var beer = app.viewController.views.beer;
+
+    this.animateOut();
+
+    app.router.navigate(beer.slug);
+
+};

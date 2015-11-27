@@ -27,7 +27,8 @@ ViewController.prototype.init = function() {
         'warmWheat': new warmWheat(),
         'crushWheat': new crushWheat(),
         'mixIngredients': new mixIngredients(),
-        'fermentation': new Fermentation()
+        'fermentation': new Fermentation(),
+        'beer': new Beer()
 	};
 
 };
